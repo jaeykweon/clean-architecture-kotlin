@@ -65,4 +65,3 @@ class ActivityWindowTest : FunSpec({
         window.calculateBalance(account2) shouldBe Money(500)
     }
 })
-

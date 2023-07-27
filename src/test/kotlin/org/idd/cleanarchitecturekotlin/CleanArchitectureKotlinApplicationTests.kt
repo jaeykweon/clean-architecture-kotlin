@@ -9,5 +9,4 @@ class CleanArchitectureKotlinApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }
