@@ -6,6 +6,8 @@ plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
+
+    id("org.jlleitschuh.gradle.ktlint") version "11.1.0"
 }
 
 group = "org.idd"
@@ -22,20 +24,34 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "11"
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "junit") // excluding junit 4
     }
+
+    val kotestVersion = "5.6.2"
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+tasks {
+    withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs += "-Xjsr305=strict"
+            jvmTarget = "11"
+        }
+    }
+
+    withType<Test> {
+        useJUnitPlatform()
+    }
+
+    ktlint {
+        verbose.set(true)
+    }
 }
