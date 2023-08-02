@@ -5,7 +5,12 @@ import org.idd.cleanarchitecturekotlin.account.domain.Money
 import org.idd.cleanarchitecturekotlin.common.SelfValidating
 
 data class SendMoneyCommand(
-    val sourceAccountId: Account.AccountId,
-    val targetAccountId: Account.AccountId,
-    val money: Money
-) : SelfValidating<SendMoneyCommand>()
+    private val sourceAccountId: Account.AccountId,
+    private val targetAccountId: Account.AccountId,
+    private val money: Money
+) : SelfValidating<SendMoneyCommand>() {
+
+    fun getSourceAccountId() = this.sourceAccountId
+    fun getTargetAccountId() = this.targetAccountId
+    fun getMoney() = this.money
+}
