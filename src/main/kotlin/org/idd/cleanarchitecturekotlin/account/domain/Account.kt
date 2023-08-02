@@ -8,7 +8,7 @@ import java.time.LocalDateTime
  * the sum of a baseline balance that was valid before the first activity in the
  * window and the sum of the activity values.
  */
-class Account(
+open class Account(
     /**
      * The unique ID of the account.
      */
@@ -26,7 +26,11 @@ class Account(
     private val activityWindow: ActivityWindow
 ) {
 
-    fun getId(): AccountId {
+    open fun getIdOrNull(): AccountId? {
+        return this.id
+    }
+
+    open fun getIdOrThrow(): AccountId {
         return this.id ?: throw IllegalStateException()
     }
 
@@ -50,7 +54,7 @@ class Account(
      * If successful, creates a new activity with a negative value.
      * @return true if the withdrawal was successful, false if not.
      */
-    fun withdraw(money: Money, targetAccountId: AccountId): Boolean {
+    open fun withdraw(money: Money, targetAccountId: AccountId): Boolean {
         require(this.id != null) { "id must not be null" }
         if (!mayWithdraw(money)) {
             return false
@@ -79,7 +83,7 @@ class Account(
      * If sucessful, creates a new activity with a positive value.
      * @return true if the deposit was successful, false if not.
      */
-    fun deposit(money: Money, sourceAccountId: AccountId): Boolean {
+    open fun deposit(money: Money, sourceAccountId: AccountId): Boolean {
         require(this.id != null) { "id must not be null" }
         val deposit = Activity(
             id = null,
