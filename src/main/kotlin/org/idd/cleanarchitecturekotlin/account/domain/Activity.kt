@@ -35,6 +35,18 @@ data class Activity(
         fun getValue() = this.value
     }
 
+    fun getIdOrNull(): ActivityId? {
+        return this.id
+    }
+
+    fun getTimestamp(): LocalDateTime {
+        return this.timestamp
+    }
+
+    fun getOwnerAccountId(): Account.AccountId {
+        return this.ownerAccountId
+    }
+
     fun getSourceAccountId(): Account.AccountId {
         return this.sourceAccountId
     }
